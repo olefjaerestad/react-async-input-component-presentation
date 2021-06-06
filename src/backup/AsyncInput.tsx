@@ -8,6 +8,7 @@ export type TAsyncInputProps = React.DetailedHTMLProps<React.InputHTMLAttributes
  */
 // https://github.com/mlaursen/react-md/issues/572
 // TODO: Understand how long the timeout _must_ be and why.
+// TODO: Add support for ref.
 export const AsyncInput: React.FC<TAsyncInputProps> = function({onChange: onChangeProp, value: valueProp, ...props}) {
   const [value, setValue] = useState<typeof valueProp>(valueProp);
   const timeoutId = useRef<ReturnType<typeof setTimeout>>();
