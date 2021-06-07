@@ -31,7 +31,6 @@ function App() {
         </a>
         <br /><br />
         <input type="text" value={name} onChange={handleChange} />
-        <input type="text" value={name} onChange={handleChange} />
       </header>
     </div>
   );
