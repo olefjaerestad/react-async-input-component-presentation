@@ -29,7 +29,7 @@ function App() {
         >
           Learn React
         </a>
-        <br /><br />
+        <h1>{name}</h1>
         <input type="text" value={name} onChange={handleChange} />
       </header>
     </div>
