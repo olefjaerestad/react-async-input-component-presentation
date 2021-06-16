@@ -1,6 +1,7 @@
 import './App.css';
 import logo from './logo.svg';
 import React from 'react';
+import { AsyncInput } from './AsyncInput';
 import { getName, setName, setNameAsync } from './redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -10,8 +11,8 @@ function App() {
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const newName = e.target.value;
-    dispatch(setName({name: newName}));
-    // dispatch(setNameAsync({name: newName}));
+    // dispatch(setName({name: newName}));
+    dispatch(setNameAsync({name: newName}));
   }
   
   return (
@@ -30,7 +31,8 @@ function App() {
           Learn React
         </a>
         <h1>{name}</h1>
-        <input type="text" value={name} onChange={handleChange} />
+        <AsyncInput type="text" value={name} onChange={handleChange} />
+        <AsyncInput type="text" value={name} onChange={handleChange} />
       </header>
     </div>
   );

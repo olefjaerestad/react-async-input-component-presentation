@@ -5,11 +5,20 @@ type TAsyncInputProps = React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLIn
 /**
  * Use this when `value` prop is updated asynchronously.
  * Acts as a drop-in replacement for the regular `<input>` element.
+ * 
+ * Motivations:
+ * Avoid cursor jumping to the end while typing.
+ * Display value immediately while typing.
+ * Display all characters typed, not just the last one.
+ * 
+ * Todo:
+ * Add forwardRef. 
+ * Optimizations (useMemo, useCallback, etc).
+ * Edge case when multiple `<AsyncInput>`s are using same value and you type in one 
+ * then quickly move cursor to next. Cursor is then moved automatically to end 
+ * due to mismatch between local state and Redux state.
  */
-// https://github.com/mlaursen/react-md/issues/572
-// TODO: Understand how long the timeout _must_ be and why.
-// TODO: Add support for ref.
-export const Backup: React.FC<TAsyncInputProps> = function({onChange: onChangeProp, value: valueProp, ...props}) {
+export const AsyncInput: React.FC<TAsyncInputProps> = function({value: valueProp, onChange: onChangeProp, ...props}) {
   const [value, setValue] = useState<typeof valueProp>(valueProp);
   const timeoutId = useRef<ReturnType<typeof setTimeout>>();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -20,7 +29,6 @@ export const Backup: React.FC<TAsyncInputProps> = function({onChange: onChangePr
     const inputHasFocus = document.activeElement === inputRef.current;
 
     timeoutId.current = setTimeout(() => {
-      console.log('AsyncInput: Update `value` based on Redux change');
       setValue(valueProp);
     }, inputHasFocus ? 500 : 0);
   }, [valueProp]);
@@ -38,9 +46,9 @@ export const Backup: React.FC<TAsyncInputProps> = function({onChange: onChangePr
 
   return (
     <input
-      {...props} 
+      {...props}
+      value={value}
       onChange={handleChange}
-      value={value} 
       ref={inputRef}
     />
   );
